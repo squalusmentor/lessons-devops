@@ -1,0 +1,45 @@
+# Конфиг проекта. Hugo здесь только для того, чтобы поднять сайт одной командой.
+
+baseURL = "http://localhost:1313/"
+languageCode = "ru-ru"
+defaultContentLanguage = "ru"
+title = "Lesson 1 — статика и веб"
+disableKinds = ["taxonomy", "term"]
+
+[params]
+  description = "Учебный статический сайт: HTML, CSS, JS, порты, HTTP, кэш"
+  buildVersion = "v1"
+
+
+# --- Заголовки ответа. То, что увидишь в curl -I ---
+[server]
+
+# свой заголовок на все ответы
+[[server.headers]]
+  for = "/**"
+  [server.headers.values]
+    X-Lesson = "lesson-1-base-web"
+
+# картинки браузер кэширует 5 минут
+[[server.headers]]
+  for = "/images/**"
+  [server.headers.values]
+    Cache-Control = "public, max-age=300"
+
+# css и js — 60 секунд (специально мало, чтобы успеть поэкспериментировать)
+[[server.headers]]
+  for = "/css/**"
+  [server.headers.values]
+    Cache-Control = "public, max-age=60"
+
+[[server.headers]]
+  for = "/js/**"
+  [server.headers.values]
+    Cache-Control = "public, max-age=60"
+
+
+# --- Редирект: /old-page -> /about/ ---
+[[server.redirects]]
+  from = "/old-page"
+  to = "/about/"
+  status = 301

@@ -1,0 +1,45 @@
+<!--
+  HEAD — служебная часть страницы, пользователь её не видит.
+  Здесь подключаются стили и скрипты. Каждая строчка ниже = ОТДЕЛЬНЫЙ HTTP-запрос
+  браузера. Посмотри их в DevTools (F12) -> Network.
+-->
+
+<!-- Кодировка. Без неё вместо русского кракозябры. Всегда первой строкой. -->
+<meta charset="UTF-8">
+
+<!-- "ширина страницы = ширина экрана". Без этого телефон покажет десктоп, уменьшенный втрое -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="{{ site.Params.description }}">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} — {{ site.Title }}{{ end }}</title>
+
+<!-- Иконка вкладки — тоже отдельный запрос -->
+<link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+<!--
+  ПОДКЛЮЧЕНИЕ ЧУЖОЙ БИБЛИОТЕКИ С CDN.
+  Bootstrap мы никуда не скачивали: браузер идёт за ним на cdn.jsdelivr.net —
+  на ЧУЖОЙ сервер, не на наш. Упал CDN — сайт останется без стилей.
+  integrity   — хеш файла: подменили на CDN, браузер не применит.
+  crossorigin — ходить на чужой домен анонимно, без кук.
+-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous">
+
+<!-- Шрифты — тоже чужой сервер -->
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rubik:wght@400;500;700&display=swap"
+      rel="stylesheet">
+
+<!--
+  НАШИ стили. Лежат на диске в static/css/style.css, отдаются по /css/style.css.
+  Подключены ПОСЛЕ Bootstrap специально: при споре правил побеждает то, что ниже.
+-->
+<link rel="stylesheet" href="/css/style.css">
+
+<!--
+  НАШ скрипт. defer = "качай параллельно, выполни когда страница построена".
+  Без defer скрипт в head отработает раньше <body> и не найдёт ни одного элемента.
+-->
+<script src="/js/app.js" defer></script>

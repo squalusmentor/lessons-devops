@@ -1,0 +1,18 @@
+{{/* Общий каркас всех страниц: head + шапка + содержимое + подвал. */}}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  {{ partial "head.html" . }}
+</head>
+
+<body>
+  {{ partial "navbar.html" . }}
+
+  {{/* сюда каждая страница подставляет своё содержимое */}}
+  {{ block "main" . }}{{ end }}
+
+  {{ partial "footer.html" . }}
+</body>
+
+</html>

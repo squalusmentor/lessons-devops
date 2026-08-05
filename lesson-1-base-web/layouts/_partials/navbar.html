@@ -1,0 +1,47 @@
+{{/* Тексты и ссылки берутся из data/top-bar.yaml, а не зашиты в разметку */}}
+{{ with index hugo.Data "top-bar" }}
+
+<!--
+  ТЕГИ И БЛОКИ. <nav>, <div>, <ul>, <li>, <a> — коробки, вложенные друг в друга.
+  <nav> рисуется как <div>, но означает "тут навигация" — для поисковиков и скринридеров.
+
+  class="..." — крючки, за которые цепляются CSS и JS.
+    navbar, sticky-top — классы Bootstrap (приехали с CDN)
+    neon-navbar        — наш класс из /css/style.css
+  Классов может быть сколько угодно, эффекты складываются.
+-->
+<nav class="navbar navbar-expand-lg navbar-dark neon-navbar sticky-top">
+  <div class="container">
+
+    <a class="navbar-brand d-flex align-items-center" href="{{ .logo.href }}">
+      <!-- alt покажется, если картинка не загрузится -->
+      <img src="{{ .logo.image }}" alt="{{ .logo.alt }}" class="navbar-logo">
+      <span class="ms-2 neon-text-pink">{{ .logo.alt }}</span>
+    </a>
+
+    <!-- бургер для узких экранов, data-bs-* читает JS Bootstrap-а -->
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Меню">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- id — УНИКАЛЬНОЕ имя элемента. По нему его находит кнопка выше -->
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+
+        {{ range .buttons }}
+          <li class="nav-item">
+            <a class="nav-link neon-nav-link" href="{{ .href }}">{{ .name }}</a>
+          </li>
+        {{ end }}
+
+        <li class="nav-item">
+          <!-- id нужен, чтобы наш JS нашёл кнопку и повесил обработчик клика -->
+          <button type="button" id="theme-toggle" class="btn btn-sm btn-neon">Сменить тему</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{{ end }}

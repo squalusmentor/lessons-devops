@@ -1,0 +1,54 @@
+{{/* Шаблон главной страницы ("/"). Тексты — в data/home.yaml */}}
+{{ define "main" }}
+{{ with hugo.Data.home }}
+
+<main class="container py-5">
+
+  <section class="text-center py-5">
+    <!-- <h1> — главный заголовок, он должен быть РОВНО ОДИН на страницу.
+         h1..h6 — про смысл и вложенность, а не про размер шрифта: размер задаёт CSS -->
+    <h1 class="neon-title neon-text-pink mb-4">{{ .hero.title }}</h1>
+    <p class="lead neon-text-cyan-soft">{{ .hero.subtitle }}</p>
+    <a href="{{ .hero.button.href }}" class="btn btn-neon mt-3">{{ .hero.button.text }}</a>
+  </section>
+
+  <!--
+    СЕТКА BOOTSTRAP. row — строка, col-* — колонка, экран делится на 12 частей.
+    col-12 col-md-4 = "на телефоне занимай всю ширину (12 из 12),
+    от 768px и шире — треть (4 из 12)". Вот и вся адаптивность — сузь окно и проверь.
+  -->
+  <section class="row g-4 mt-4">
+    {{ range .cards }}
+      <div class="col-12 col-md-4">
+        <div class="neon-card h-100 p-4">
+          <h2 class="h5 neon-text-cyan">{{ .title }}</h2>
+          <p class="mb-0">{{ .text }}</p>
+        </div>
+      </div>
+    {{ end }}
+  </section>
+
+  <!-- Блок, который заполняет JavaScript -->
+  <section class="mt-5">
+    <div class="neon-card p-4">
+      <h2 class="h5 neon-text-pink">{{ .contact.title }}</h2>
+
+      <!-- по id="js-info" скрипт находит абзац и перезаписывает текст.
+           Видишь заглушку — значит JS не отработал -->
+      <p id="js-info" class="mb-2 text-muted">{{ .contact.fallback }}</p>
+
+      <p class="mb-0 small">
+        Почта:
+        <!-- data-* — свой атрибут: место, откуда JS забирает значение -->
+        <button type="button" class="btn btn-link p-0 copy-email" data-email="{{ .contact.email }}">
+          <span class="copy-email-text neon-text-cyan">{{ .contact.email }}</span>
+        </button>
+        <span class="text-muted">— кликни, скопируется</span>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+{{ end }}
+{{ end }}

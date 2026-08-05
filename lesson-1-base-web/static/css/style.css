@@ -1,0 +1,248 @@
+/* ===========================================================================
+   style.css — наши собственные стили.
+
+   Файл лежит на диске:   static/css/style.css
+   По HTTP отдаётся с:    /css/style.css
+   Всё, что лежит в static/, Hugo кладёт в корень сайта КАК ЕСТЬ, без обработки.
+
+   Синтаксис CSS — три вещи:
+
+       селектор {  свойство: значение;  }
+
+   Селектор отвечает на вопрос "к чему применить", остальное — "что сделать".
+   Комментарии в CSS бывают только вот такие, слэш-звёздочка.
+   =========================================================================== */
+
+
+/* ---------------------------------------------------------------------------
+   1. ПЕРЕМЕННЫЕ
+
+   :root — псевдо-селектор корня документа (по сути <html>).
+   Переменные объявляются с двух дефисов и работают везде ниже по дереву.
+   Смысл: цвет объявлен ОДИН раз, используется в двадцати местах.
+   Меняешь тут — меняется везде. Это первое, что стоит делать в любом проекте.
+   --------------------------------------------------------------------------- */
+:root {
+  --bg:         #000000;
+  --pink:       #fca7e6;
+  --cyan:       #72f7fc;
+  --text:       #f5f5f5;
+  --glow-pink:  0 0 6px rgba(252, 167, 230, 0.85), 0 0 14px rgba(252, 167, 230, 0.55);
+  --glow-cyan:  0 0 6px rgba(114, 247, 252, 0.85), 0 0 14px rgba(114, 247, 252, 0.55);
+}
+
+/* Альтернативная тема. Класс theme-light вешает на <body> наш JavaScript,
+   и все переменные ниже перебивают те, что объявлены в :root.
+   Ни одного другого правила менять не надо — в этом сила переменных. */
+body.theme-light {
+  --bg:         #f6f2fb;
+  --pink:       #b5179e;
+  --cyan:       #0b7285;
+  --text:       #1b1b1f;
+  --glow-pink:  none;
+  --glow-cyan:  none;
+}
+
+
+/* ---------------------------------------------------------------------------
+   2. ВИДЫ СЕЛЕКТОРОВ — ровно те же, что в DevTools и в парсерах HTML
+
+     h1            — по имени тега:     все <h1>
+     .neon-card    — по классу:         все элементы с class="... neon-card ..."
+     #mainNav      — по id:             ЕДИНСТВЕННЫЙ элемент с id="mainNav"
+     .card p       — потомок:           <p> где-то внутри .card
+     .card > p     — прямой ребёнок:    <p> непосредственно внутри .card
+     a:hover       — состояние:         ссылка под курсором
+     *             — вообще всё
+
+   Кто побеждает, если правила спорят: id (100) > класс (10) > тег (1).
+   При равном весе побеждает то, что НИЖЕ в файле, а файл, подключённый
+   позже в <head>, перебивает подключённый раньше. Поэтому наш style.css
+   идёт после Bootstrap.
+   --------------------------------------------------------------------------- */
+
+/* Селектор по тегу + сброс модели коробки для всего документа.
+   border-box = "ширина 300px значит 300px вместе с рамкой и внутренними отступами".
+   Без этой строки отступы прибавляются К ширине, и вёрстка разъезжается. */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: var(--bg);          /* var(--имя) — подставить переменную */
+  color: var(--text);
+  font-family: 'Rubik', system-ui, -apple-system, sans-serif;
+  /* Список шрифтов = приоритет: нет первого — берём второй, и так далее.
+     'Rubik' приезжает с Google Fonts (см. head.html). Не загрузился — не беда. */
+  scroll-behavior: smooth;
+}
+
+body {
+  /* Фоновое свечение из двух градиентов поверх основного цвета */
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(252, 167, 230, 0.12), transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(114, 247, 252, 0.10), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  transition: background-color 0.3s ease, color 0.3s ease;  /* плавная смена темы */
+}
+
+
+/* ---------------------------------------------------------------------------
+   3. НАШИ КЛАССЫ
+
+   Каждый из них — просто набор свойств, который мы вешаем на элемент в HTML
+   через class="...". Название придумываем сами, лишь бы читалось.
+   --------------------------------------------------------------------------- */
+
+.neon-text-pink {
+  color: var(--pink);
+  text-shadow: var(--glow-pink);   /* тень текста = эффект неонового свечения */
+}
+
+.neon-text-cyan {
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+.neon-text-cyan-soft {
+  color: var(--cyan);
+  text-shadow: 0 0 4px rgba(114, 247, 252, 0.4);
+}
+
+.neon-title {
+  font-family: 'Press Start 2P', 'Rubik', monospace;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  font-size: clamp(1.4rem, 4vw, 2.4rem);
+  /* clamp(мин, желаемое, макс) — размер сам подстраивается под ширину экрана,
+     но не выходит за границы. Одна строка вместо трёх медиа-запросов. */
+}
+
+/* !important нужен потому, что Bootstrap задаёт фон навбара своим классом.
+   Общее правило: !important — крайняя мера, а не привычка. Если ты пишешь его
+   в каждой второй строке, значит структура классов сломана. */
+.neon-navbar {
+  background: #000 !important;
+  border-bottom: 1px solid var(--pink);
+  box-shadow: 0 0 20px rgba(252, 167, 230, 0.3);
+}
+
+body.theme-light .neon-navbar {
+  /* Составной селектор: применить, только если .neon-navbar лежит внутри
+     body с классом theme-light. Так тема меняет частные случаи. */
+  background: #ffffff !important;
+  border-bottom-color: var(--pink);
+  box-shadow: 0 0 20px rgba(181, 23, 158, 0.15);
+}
+
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  filter: drop-shadow(0 0 6px rgba(252, 167, 230, 0.7));
+}
+
+.neon-nav-link {
+  color: var(--cyan) !important;
+  font-weight: 500;
+  transition: text-shadow 0.2s ease;   /* анимировать изменение за 0.2 сек */
+}
+
+/* :hover — псевдо-класс "состояние". Стиль действует, пока курсор над элементом */
+.neon-nav-link:hover {
+  text-shadow: var(--glow-cyan);
+}
+
+.neon-card {
+  background: rgba(255, 255, 255, 0.03);   /* rgba: последнее число — прозрачность */
+  border: 1px solid rgba(114, 247, 252, 0.35);
+  border-radius: 14px;                      /* скругление углов */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.neon-card:hover {
+  transform: translateY(-4px);              /* приподнять на 4 пикселя */
+  box-shadow: 0 0 18px rgba(114, 247, 252, 0.25);
+}
+
+body.theme-light .neon-card {
+  background: #ffffff;
+  border-color: rgba(11, 114, 133, 0.3);
+}
+
+.btn-neon {
+  background: transparent;
+  border: 1px solid var(--pink);
+  color: var(--pink);
+  text-shadow: var(--glow-pink);
+  padding: 0.5rem 1.4rem;
+  border-radius: 999px;                     /* очень большой радиус = "таблетка" */
+  transition: all 0.2s ease;
+}
+
+.btn-neon:hover {
+  background: var(--pink);
+  color: #000;
+  text-shadow: none;
+  box-shadow: var(--glow-pink);
+}
+
+.neon-footer {
+  border-top: 1px solid var(--pink);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+body.theme-light .neon-footer {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* Стили для текста, пришедшего из markdown (страница /about/).
+   Селектор-потомок: применяем ко всем <code> внутри .prose */
+.prose code {
+  background: rgba(114, 247, 252, 0.12);
+  color: var(--cyan);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.prose pre {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(114, 247, 252, 0.25);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;                         /* длинный код не ломает вёрстку */
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+
+.copy-email {
+  text-decoration: none;
+  border: none;
+}
+
+.copy-email-text.copied {
+  color: #7bed9f !important;
+  text-shadow: none;
+}
+
+
+/* ---------------------------------------------------------------------------
+   4. МЕДИА-ЗАПРОС — правила, включающиеся при условии.
+
+   Здесь: "если ширина экрана 767px и меньше". Так делают мобильную версию,
+   когда классов Bootstrap не хватает.
+   Проверяется просто: тяни край окна браузера и смотри.
+   --------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .neon-title {
+    letter-spacing: 0;
+  }
+
+  .navbar-logo {
+    height: 32px;
+  }
+}

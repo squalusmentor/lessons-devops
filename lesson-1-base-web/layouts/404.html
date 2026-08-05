@@ -1,0 +1,8 @@
+{{/* Страница "не найдено". Отдаётся с кодом 404, а не 200 — проверь curl -I */}}
+{{ define "main" }}
+<main class="container py-5 text-center">
+  <h1 class="neon-title neon-text-pink mb-3">404</h1>
+  <p class="lead neon-text-cyan-soft mb-4">Такого файла на сервере нет.</p>
+  <a href="/" class="btn btn-neon">На главную</a>
+</main>
+{{ end }}
