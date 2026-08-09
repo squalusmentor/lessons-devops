@@ -1,0 +1,37 @@
+<!-- CSS — ОФОРМЛЕНИЕ. Тот же самый HTML, что и в 01, плюс стили. -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>2. HTML + CSS</title>
+
+  <style>
+    /* селектор { свойство: значение; } */
+
+    body      { font-family: sans-serif; background: #101018; color: #eee; padding: 2rem; }
+    h1        { color: #fca7e6; }          /* по тегу */
+    .accent   { color: #72f7fc; }          /* по классу — ставится через class="accent" */
+    #special  { text-decoration: underline; }  /* по id — ровно один такой элемент */
+    button    { background: #fca7e6; border: none; padding: .6rem 1.2rem; border-radius: 999px; }
+    button:hover { background: #72f7fc; }  /* состояние: курсор наведён */
+  </style>
+</head>
+<body>
+
+  <h1>Заголовок</h1>
+  <p>Абзац текста. <b class="accent">Жирный</b>, <i>курсив</i>,
+     <a href="https://example.com" id="special">ссылка</a>.</p>
+
+  <ul>
+    <li>пункт списка</li>
+    <li class="accent">ещё пункт</li>
+  </ul>
+
+  <button type="button">Кнопка</button>
+
+  <!-- Контент не изменился ни на букву — изменился только его вид.
+       В настоящем проекте стили выносят в отдельный .css файл и подключают
+       через <link rel="stylesheet" href="/css/style.css"> — как в уроке 1. -->
+
+</body>
+</html>

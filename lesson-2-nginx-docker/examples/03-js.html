@@ -1,0 +1,41 @@
+<!-- JS — ПОВЕДЕНИЕ. Тот же HTML + CSS, плюс реакция на действия пользователя. -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>3. HTML + CSS + JS</title>
+  <style>
+    body      { font-family: sans-serif; background: #101018; color: #eee; padding: 2rem; }
+    h1        { color: #fca7e6; }
+    button    { background: #fca7e6; border: none; padding: .6rem 1.2rem; border-radius: 999px; }
+    .light    { background: #f4f4f8; color: #111; }   /* класс включает JS, рисует CSS */
+  </style>
+</head>
+<body>
+
+  <h1>Заголовок</h1>
+  <p id="counter">Кликов: 0</p>
+
+  <button type="button" id="btn">Нажми меня</button>
+  <button type="button" id="theme">Сменить тему</button>
+
+  <script>
+    // JS выполняется В БРАУЗЕРЕ, а не на сервере.
+    let clicks = 0;
+
+    // найти элемент по id и повесить обработчик клика
+    document.getElementById('btn').addEventListener('click', function () {
+      clicks++;
+      document.getElementById('counter').textContent = 'Кликов: ' + clicks;
+    });
+
+    document.getElementById('theme').addEventListener('click', function () {
+      document.body.classList.toggle('light');   // JS переключает класс — дальше работает CSS
+    });
+  </script>
+
+  <!-- F12 -> Console: сюда падают ошибки JS. Ошибка в JS не роняет сервер,
+       страница отдастся, просто что-то на ней не заработает. -->
+
+</body>
+</html>
