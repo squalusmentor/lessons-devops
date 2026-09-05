@@ -20,7 +20,7 @@ Linux, Bash и Git идут фоном самостоятельно, отдел�
 
    Python: [L1](https://github.com/squalusmentor/lessons-python/tree/main/l1), [L2](https://github.com/squalusmentor/lessons-python/tree/main/l2)
 
-5. Приложение за прокси: reverse proxy, proxy_pass, заголовки X-Forwarded, переменные окружения, взаимодействие двух контейнеров, логи приложения в stdout
+5. [Приложение за прокси](lesson-5-app-behind-proxy/): reverse proxy, proxy_pass, заголовки X-Forwarded, переменные окружения, взаимодействие двух контейнеров, логи приложения в stdout
 
    Python: [L3](https://github.com/squalusmentor/lessons-python/tree/main/l3), [L4](https://github.com/squalusmentor/lessons-python/tree/main/l4)
 
