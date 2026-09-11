@@ -307,7 +307,7 @@ nginx     Up 5 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp
 
 У `backend` в колонке портов просто `5000/tcp` без стрелки: порт открыт внутри сети и наружу не проброшен
 
-Swagger UI: **http://localhost:8080/apidocs**
+Swagger UI: **http://localhost:8080/apidocs/**
 
 Те же запросы через curl, реальный вывод:
 
@@ -403,4 +403,4 @@ docker compose exec nginx wget -qO- http://backend:5000/health
 
 ## Что дальше
 
-Урок 6: Postgres, docker-сеть и готовность базы, volume и сохранность данных, секреты в `.env`, дамп базы, systemd unit и автозапуск после ребута
+Урок 6: Postgres и сохранность данных, volume, healthcheck и готовность базы, пароль в `.env`, дамп и восстановление, автозапуск после ребута

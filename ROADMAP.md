@@ -24,7 +24,7 @@ Linux, Bash и Git идут фоном самостоятельно, отдел�
 
    Python: [L3](https://github.com/squalusmentor/lessons-python/tree/main/l3), [L4](https://github.com/squalusmentor/lessons-python/tree/main/l4)
 
-6. Postgres и деплой: docker-сеть, healthcheck и готовность базы, volume и сохранность данных, .env и секреты, дамп базы, systemd unit и автозапуск после ребута
+6. [Postgres и сохранность данных](lesson-6-postgres/): контейнер с базой, volume, healthcheck и готовность базы, пароль в .env, дамп и восстановление, systemd и автозапуск после ребута, автобэкап в S3 как практика
 
 > **Здесь начинается собственный проект.** Темы на выбор: [project-list.md](project-list.md)
 >
