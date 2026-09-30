@@ -1,0 +1,50 @@
+name: deploy
+
+on:
+  # Вызов из pipeline.yml после сборки нового тега
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: true
+  # Кнопка Run workflow: выкатить любую уже собранную версию, в том числе старую
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Версия, которую выкатить, например v1.2.0"
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Два деплоя на один сервер одновременно не пускаем, второй ждёт первого
+    concurrency: deploy
+    timeout-minutes: 10
+    steps:
+      - name: SSH-ключ и ключ сервера
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ vars.SSH_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+          eval "$(ssh-agent -s)" > /dev/null
+          echo "$SSH_PRIVATE_KEY" | ssh-add -
+          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> "$GITHUB_ENV"
+
+      - name: Выкатить ${{ inputs.tag }}
+        env:
+          TAG: ${{ inputs.tag }}
+          SERVER: ${{ vars.DEPLOY_USER }}@${{ vars.DEPLOY_HOST }}
+        run: |
+          ssh "$SERVER" bash -se <<EOF
+            cd ~/app
+            git pull -q
+            sed -i '/^APP_TAG=/d' .env
+            echo "APP_TAG=$TAG" >> .env
+            docker compose up -d --pull always --wait
+          EOF

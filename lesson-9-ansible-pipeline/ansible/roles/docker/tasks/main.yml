@@ -1,0 +1,16 @@
+- name: Скачать установщик Docker
+  ansible.builtin.get_url:
+    url: https://get.docker.com
+    dest: /root/get-docker.sh
+    mode: "0755"
+
+- name: Поставить Docker, если его ещё нет
+  ansible.builtin.command: sh /root/get-docker.sh
+  args:
+    creates: /usr/bin/docker
+
+- name: Docker запущен и стартует после ребута
+  ansible.builtin.systemd_service:
+    name: docker
+    state: started
+    enabled: true

@@ -1,0 +1,53 @@
+name: deploy
+
+on:
+  # Вызов из pipeline.yml после сборки нового тега
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: true
+  # Кнопка Run workflow: выкатить любую уже собранную версию, в том числе старую
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Версия, которую выкатить, например v1.2.0"
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Два деплоя на один сервер одновременно не пускаем, второй ждёт первого
+    concurrency: deploy
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: ansible
+    steps:
+      # Код того же тега, что и образ: compose, конфиги и плейбук той же версии
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.tag }}
+
+      - run: ansible-galaxy collection install -r requirements.yml
+
+      - name: SSH-ключ и ключ сервера
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ vars.SSH_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+          eval "$(ssh-agent -s)" > /dev/null
+          echo "$SSH_PRIVATE_KEY" | ssh-add -
+          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> "$GITHUB_ENV"
+
+      - name: ansible-playbook ${{ inputs.tag }}
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          TAG: ${{ inputs.tag }}
+        run: ansible-playbook site.yml -e "app_tag=$TAG"

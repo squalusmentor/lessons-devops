@@ -1,0 +1,39 @@
+- name: Версия и пароль заданы
+  ansible.builtin.assert:
+    that:
+      - app_tag is defined
+      - postgres_password | length > 0
+    fail_msg: >-
+      Нужны -e app_tag=vX.Y.Z и POSTGRES_PASSWORD в окружении.
+      Локально: set -a; source secrets.env; set +a
+    quiet: true
+
+- name: Каталоги проекта
+  ansible.builtin.file:
+    path: "{{ app_dir }}/nginx"
+    state: directory
+    mode: "0755"
+
+- name: docker-compose.yml и конфиг nginx
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../{{ item }}"
+    dest: "{{ app_dir }}/{{ item }}"
+    mode: "0644"
+  loop:
+    - docker-compose.yml
+    - nginx/site.conf
+
+# diff: false, чтобы пароль не попал в вывод при запуске с --diff
+- name: .env с версией и паролем
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ app_dir }}/.env"
+    mode: "0600"
+  diff: false
+
+- name: Поднять стек
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_dir }}"
+    pull: missing
+    wait: true
+    wait_timeout: 120

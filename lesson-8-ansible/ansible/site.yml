@@ -1,0 +1,6 @@
+- name: Сервер с проектом
+  hosts: app
+  become: true
+  roles:
+    - docker
+    - app

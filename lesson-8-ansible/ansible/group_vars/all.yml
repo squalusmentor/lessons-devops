@@ -1,0 +1,8 @@
+app_image: your-dockerhub-login/events
+
+postgres_user: events
+postgres_db: events
+
+# Пароль приходит из окружения того, кто запускает плейбук: локально из secrets.env,
+# в пайплайне из секретов GitHub. trim срезает \r, если файл сохранён с CRLF
+postgres_password: "{{ lookup('env', 'POSTGRES_PASSWORD') | trim }}"
