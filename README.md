@@ -13,7 +13,7 @@
 | [lesson-4-debugging](lesson-4-debugging/) | Базовая отладка: память, CPU и диск, чистка Docker-образов, load average, OOM и троттлинг, ping/traceroute, логи в Linux |
 | [lesson-5-app-behind-proxy](lesson-5-app-behind-proxy/) | Приложение за прокси: reverse proxy, proxy_pass, заголовки X-Forwarded, переменные окружения, два контейнера, логи приложения в stdout |
 | [lesson-6-postgres](lesson-6-postgres/) | Postgres и сохранность данных: контейнер с базой, volume, healthcheck и готовность базы, пароль в .env, дамп и восстановление, автозапуск после ребута |
-| [lesson-7-cicd](lesson-7-cicd/) | CI/CD на GitHub Actions: ветки и теги, линт, сборка и пуш образа в Docker Hub, секреты, деплой по SSH, откат кнопкой |
+| [lesson-7-cicd](lesson-7-cicd/) | CI/CD на GitHub Actions: ветки и теги, модели ветвления, линт, сборка и пуш образа в Docker Hub, секреты, деплой по SSH, откат кнопкой |
 | [lesson-8-ansible](lesson-8-ansible/) | Ansible: SSH и inventory, плейбук, модули и идемпотентность, роли, секреты из окружения, перенос ручного деплоя в плейбук |
 | [lesson-9-ansible-pipeline](lesson-9-ansible-pipeline/) | Ansible в пайплайне: джоба деплоя вызывает плейбук, push вместо pull, дамп перед деплоем, релиз одним тегом и откат кнопкой |
 | [lesson-10-backup-limits-redeploy](lesson-10-backup-limits-redeploy/) | Бэкап, лимиты, редеплой: дамп в S3 по расписанию, ротация lifecycle-правилом, лимиты по данным Netdata, редеплой с последнего удачного тега |
