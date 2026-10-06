@@ -16,3 +16,4 @@
 | [lesson-7-cicd](lesson-7-cicd/) | CI/CD на GitHub Actions: ветки и теги, линт, сборка и пуш образа в Docker Hub, секреты, деплой по SSH, откат кнопкой |
 | [lesson-8-ansible](lesson-8-ansible/) | Ansible: SSH и inventory, плейбук, модули и идемпотентность, роли, секреты из окружения, перенос ручного деплоя в плейбук |
 | [lesson-9-ansible-pipeline](lesson-9-ansible-pipeline/) | Ansible в пайплайне: джоба деплоя вызывает плейбук, push вместо pull, дамп перед деплоем, релиз одним тегом и откат кнопкой |
+| [lesson-10-backup-limits-redeploy](lesson-10-backup-limits-redeploy/) | Бэкап, лимиты, редеплой: дамп в S3 по расписанию, ротация lifecycle-правилом, лимиты по данным Netdata, редеплой с последнего удачного тега |

@@ -42,9 +42,9 @@ Linux, Bash и Git идут фоном самостоятельно, отдел�
 
    Python: [L7](https://github.com/squalusmentor/lessons-python/tree/main/l7), основной курс закрыт
 
-10. Бэкап на S3: работа с файлами и путями, subprocess, argparse, logging, boto3, дамп базы проекта, ротация копий, запуск по крону, уведомление об ошибке
+10. [Бэкап, лимиты, редеплой](lesson-10-backup-limits-redeploy/): дамп базы в S3 по расписанию, восстановление, ротация lifecycle-правилом, данные Netdata через API, лимиты памяти и CPU по цифрам, healthcheck без лишней нагрузки, редеплой с последнего удачного тега, тег после успешного деплоя
 
-11. Метрики: Prometheus, экспортеры, Netdata в контейнере, эндпоинт /metrics в проекте, что вообще имеет смысл считать
+11. Метрики: Prometheus, экспортеры, алерты в Netdata, эндпоинт /metrics в проекте, что вообще имеет смысл считать
 
     Python: [B1](https://github.com/squalusmentor/lessons-python/tree/main/advanced/b1), [B2](https://github.com/squalusmentor/lessons-python/tree/main/advanced/b2)
 
