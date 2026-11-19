@@ -153,7 +153,7 @@ docker exec ec-mongodb rm /backup/<файл>.gz
 
 ### Что такое S3
 
-S3 (Simple Storage Service) это объектное хранилище Amazon. Его HTTP API стал стандартом: Vultr, MinIO, Yandex Object Storage, Selectel, Cloudflare R2 повторяют тот же API. Отсюда главное следствие: клиенты общие. `aws` CLI, `s3cmd`, `rclone`, `boto3`, `minio-go` работают с любым из них, меняются только endpoint и ключи
+S3 (Simple Storage Service) это объектное хранилище Amazon. Его HTTP API стал стандартом: Vultr, MinIO, Yandex Object Storage, Selectel, Cloudflare R2, Cloud.ru повторяют тот же API. Отсюда главное следствие: клиенты общие. `aws` CLI, `s3cmd`, `rclone`, `boto3`, `minio-go` работают с любым из них, меняются только endpoint и ключи
 
 Совместимость при этом неполная. У каждого провайдера есть таблица, какие части API он поддерживает. У Vultr это [S3 Compatibility Matrix](https://docs.vultr.com/products/storage/object-storage/s3-compatibility-matrix), и на ней проект споткнулся, об этом ниже в ротации
 
@@ -304,14 +304,49 @@ lifecycle сейчас: 1 правил
 
 ### S3 для практики
 
-Хранилище проекта открыто тебе для практики, настройки те же:
+Для практики выдан бакет на Cloud.ru, проект живёт на другом провайдере. Это та самая смена провайдера из раздела 2: меняются endpoint и ключи, клиенты и команды те же
 
 | Параметр | Значение |
 |---|---|
-| провайдер | Vultr Object Storage, S3-совместимый |
-| endpoint | `https://ams1.vultrobjects.com` |
-| ключи, бакет, префикс | выдаёт ментор, в репозиторий не коммитятся |
+| провайдер | Cloud.ru Object Storage, S3-совместимый |
+| endpoint | `https://s3.cloud.ru` |
+| регион | `ru-central-1` |
+| адрес бакета | path-style: `https://s3.cloud.ru/<бакет>/<ключ>` |
+| access key | `<tenant_id>:<key_id>` |
+| secret key | Key Secret |
+| tenant_id, ключи, бакет, префикс | выдаёт ментор, в репозиторий не коммитятся |
 | lifecycle | поддерживается |
+
+Две вещи отличаются от Vultr, и на обе ты наступишь с первого запроса:
+
+| Что видишь | Причина | Что делать |
+|---|---|---|
+| `InvalidAccessKeyId` | в access key нет префикса тенанта | access key целиком `<tenant_id>:<key_id>` |
+| `AuthorizationHeaderMalformed: unexpected region, expecting 'ru-central-1'` | клиент подставил регион по умолчанию | задать регион `ru-central-1` |
+
+Список объектов бакета:
+
+```bash
+docker run --rm \
+  -e RCLONE_CONFIG_S3_TYPE=s3 -e RCLONE_CONFIG_S3_PROVIDER=Other \
+  -e RCLONE_CONFIG_S3_ACCESS_KEY_ID=<tenant_id>:<key_id> -e RCLONE_CONFIG_S3_SECRET_ACCESS_KEY=<secret> \
+  -e RCLONE_CONFIG_S3_ENDPOINT=https://s3.cloud.ru -e RCLONE_CONFIG_S3_REGION=ru-central-1 \
+  rclone/rclone:1.75.1 lsl s3:<бакет>
+```
+
+Lifecycle читается и ставится через `aws cli`. Тот же запуск без установки на хост:
+
+```bash
+docker run --rm \
+  -e AWS_ACCESS_KEY_ID=<tenant_id>:<key_id> -e AWS_SECRET_ACCESS_KEY=<secret> -e AWS_DEFAULT_REGION=ru-central-1 \
+  amazon/aws-cli:2.41.1 s3api get-bucket-lifecycle-configuration \
+  --bucket <бакет> --endpoint-url https://s3.cloud.ru
+```
+
+| Что | Зачем |
+|---|---|
+| `NoSuchLifecycleConfiguration` в ответе | правил на бакете нет, это не ошибка, как в разделе 3 |
+| `put-bucket-lifecycle-configuration` вместо `get-` | ставит правило. Правила передаются в `--lifecycle-configuration` в JSON: те же `ID`, `Filter`, `Status`, `Expiration`, что и в XML выше |
 
 Хранилище общее, а lifecycle-правила живут на бакете целиком. Перед установкой своего правила прочитай текущие и не отправляй конфигурацию без них
 
