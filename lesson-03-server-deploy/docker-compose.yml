@@ -2,7 +2,7 @@ services:
   web:
     build:
       context: ..
-      dockerfile: lesson-3-server-deploy/Dockerfile
+      dockerfile: lesson-03-server-deploy/Dockerfile
       args:
         APP_HOST: ${APP_HOST}
     ports:

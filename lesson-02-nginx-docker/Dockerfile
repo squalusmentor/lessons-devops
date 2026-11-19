@@ -8,7 +8,7 @@
 # Это ~50 МБ вместо ~400 МБ и меньше поверхности для атаки.
 #
 # ВАЖНО: контекст сборки — КОРЕНЬ репозитория, а не эта папка.
-# Иначе не достать lesson-1-base-web (COPY не умеет выходить за пределы контекста).
+# Иначе не достать lesson-01-base-web (COPY не умеет выходить за пределы контекста).
 # Поэтому пути ниже пишутся от корня, а собирать надо так (из этой папки):
 #   docker build -f Dockerfile -t lesson2-web ..
 #                                            ^^ вот это и есть контекст
@@ -27,7 +27,7 @@ FROM ghcr.io/gohugoio/hugo:v0.164.0 AS builder
 WORKDIR /src
 
 # COPY <откуда на хосте> <куда в образе>. Копируем проект из урока 1.
-COPY lesson-1-base-web/ ./
+COPY lesson-01-base-web/ ./
 
 # ARG — переменная только на время сборки (в готовом образе её нет).
 # Значение можно переопределить: docker build --build-arg HUGO_BASEURL=https://site.ru/
@@ -46,7 +46,7 @@ FROM nginx:1.27-alpine
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Кладём свой. include conf.d/*.conf уже прописан в /etc/nginx/nginx.conf
-COPY lesson-2-nginx-docker/nginx/site.conf /etc/nginx/conf.d/site.conf
+COPY lesson-02-nginx-docker/nginx/site.conf /etc/nginx/conf.d/site.conf
 
 # --from=builder — забрать файлы из первого этапа.
 # /usr/share/nginx/html — стандартный root в образе nginx, он же указан в site.conf

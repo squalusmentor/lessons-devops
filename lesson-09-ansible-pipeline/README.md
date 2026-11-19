@@ -17,7 +17,7 @@
 | Что откатывает кнопка | образ, а compose остаётся из `main` | образ, compose, конфиги и сам плейбук той версии |
 | Где адрес сервера | переменные `DEPLOY_HOST`, `DEPLOY_USER` | `inventory.ini` в репозитории |
 
-Файлы урока: [deploy.yml](.github/workflows/deploy.yml) и [ansible/](ansible/). [pipeline.yml](../lesson-7-cicd/.github/workflows/pipeline.yml) остаётся из урока 7 без изменений: линт, сборка, вызов деплоя
+Файлы урока: [deploy.yml](.github/workflows/deploy.yml) и [ansible/](ansible/). [pipeline.yml](../lesson-07-cicd/.github/workflows/pipeline.yml) остаётся из урока 7 без изменений: линт, сборка, вызов деплоя
 
 ---
 

@@ -24,7 +24,7 @@ services:
   web:
     build:
       context: ..
-      dockerfile: lesson-3-server-deploy/Dockerfile
+      dockerfile: lesson-03-server-deploy/Dockerfile
       args:
         APP_HOST: ${APP_HOST}
     ports:
@@ -36,7 +36,7 @@ services:
 | Ключ | Что значит |
 |---|---|
 | `build.context` | то же самое, что `..` в `docker build` из урока 2 — контекст сборки, корень репозитория |
-| `build.dockerfile` | какой Dockerfile использовать — путь **от `context`**, а не от папки, где лежит сам `docker-compose.yml`. Поэтому здесь `lesson-3-server-deploy/Dockerfile`, а не просто `Dockerfile` |
+| `build.dockerfile` | какой Dockerfile использовать — путь **от `context`**, а не от папки, где лежит сам `docker-compose.yml`. Поэтому здесь `lesson-03-server-deploy/Dockerfile`, а не просто `Dockerfile` |
 | `build.args.APP_HOST` | прокидывает `ARG APP_HOST` внутрь сборки (см. Dockerfile) |
 | `ports` | то же самое, что `-p` в `docker run`, можно перечислить несколько портов |
 | `restart: unless-stopped` | контейнер поднимется заново после падения или перезагрузки сервера. `docker run` без ключа так не умеет |
@@ -200,7 +200,7 @@ openssl req -x509 -nodes -newkey rsa:2048 \
 ```dockerfile
 RUN apk add --no-cache openssl
 
-COPY lesson-3-server-deploy/certs/generate.sh /tmp/generate.sh
+COPY lesson-03-server-deploy/certs/generate.sh /tmp/generate.sh
 RUN sh /tmp/generate.sh "${APP_HOST}" /etc/nginx/certs && rm /tmp/generate.sh
 ```
 

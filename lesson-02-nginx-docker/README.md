@@ -123,13 +123,13 @@ docker stop / start / rm <имя>     # остановить / запустит�
 # 1. builder: ставим Hugo, собираем сайт из урока 1
 FROM ghcr.io/gohugoio/hugo:v0.164.0 AS builder
 WORKDIR /src
-COPY lesson-1-base-web/ ./
+COPY lesson-01-base-web/ ./
 RUN hugo --minify --baseURL "${HUGO_BASEURL}"
 
 # 2. runtime: чистый nginx + только результат сборки
 FROM nginx:1.27-alpine
 RUN rm /etc/nginx/conf.d/default.conf
-COPY lesson-2-nginx-docker/nginx/site.conf /etc/nginx/conf.d/site.conf
+COPY lesson-02-nginx-docker/nginx/site.conf /etc/nginx/conf.d/site.conf
 COPY --from=builder /src/public /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
@@ -145,14 +145,14 @@ CMD ["nginx", "-g", "daemon off;"]
   сколько живёт его главный процесс. Обычно Nginx запускается как демон. В Linux демон (daemon) — это процесс, который работает в фоновом режиме и не привязан к интерактивному терминалу. Docker устроен так, что у каждого контейнера есть основной процесс — PID 1. Docker считает контейнер работающим, пока работает его основной процесс, если запустить демон, то докер остановит контейнер так как нет основного процесса.
 - **`EXPOSE 80`** ничего не пробрасывает, это документация. Пробрасывает `-p 8080:80`.
 - **Контекст сборки — корень репозитория**, а не эта папка: `COPY` не умеет выходить
-  за пределы контекста, а нам нужен `lesson-1-base-web/`. Поэтому пути в Dockerfile
+  за пределы контекста, а нам нужен `lesson-01-base-web/`. Поэтому пути в Dockerfile
   идут от корня, а в конце команды сборки стоит `..`.
 
 ---
 
 ## 5. Сборка и запуск
 
-Обе команды — из папки `lesson-2-nginx-docker`.
+Обе команды — из папки `lesson-02-nginx-docker`.
 
 ### Сборка
 
@@ -164,7 +164,7 @@ docker build -f Dockerfile -t lesson2-web:latest ..
 |---|---|
 | `-f Dockerfile` | какой файл-рецепт брать |
 | `-t lesson2-web:latest` | как назвать образ: `имя:тег`. Без `-t` образ будет безымянным |
-| `..` | **контекст сборки** — папка, которую docker отправит себе. Здесь корень репозитория, потому что нужен `lesson-1-base-web/` |
+| `..` | **контекст сборки** — папка, которую docker отправит себе. Здесь корень репозитория, потому что нужен `lesson-01-base-web/` |
 
 ### Запуск
 

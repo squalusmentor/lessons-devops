@@ -12,7 +12,7 @@
 # ---------- Этап 1: сборка сайта (как в уроке 2) ----------
 FROM ghcr.io/gohugoio/hugo:v0.164.0 AS builder
 WORKDIR /src
-COPY lesson-1-base-web/ ./
+COPY lesson-01-base-web/ ./
 
 ARG APP_HOST=localhost
 RUN hugo --minify --baseURL "http://${APP_HOST}/"
@@ -27,9 +27,9 @@ ARG APP_HOST=localhost
 RUN apk add --no-cache openssl
 
 RUN rm /etc/nginx/conf.d/default.conf
-COPY lesson-3-server-deploy/nginx/site.conf /etc/nginx/conf.d/site.conf
+COPY lesson-03-server-deploy/nginx/site.conf /etc/nginx/conf.d/site.conf
 
-COPY lesson-3-server-deploy/certs/generate.sh /tmp/generate.sh
+COPY lesson-03-server-deploy/certs/generate.sh /tmp/generate.sh
 RUN sh /tmp/generate.sh "${APP_HOST}" /etc/nginx/certs && rm /tmp/generate.sh
 
 COPY --from=builder /src/public /usr/share/nginx/html

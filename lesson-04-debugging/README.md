@@ -44,7 +44,7 @@ Filesystem      Size  Used Avail Use% Mounted on
 ```
 $ docker stats --no-stream
 CONTAINER ID   NAME                           CPU %     MEM USAGE / LIMIT     MEM %     NET I/O         BLOCK I/O       PIDS
-43bdc585be8f   lesson-3-server-deploy-web-1   0.00%     8.082MiB / 7.756GiB   0.10%     4.06kB / 126B   9.27MB / 0B     7
+43bdc585be8f   lesson-03-server-deploy-web-1   0.00%     8.082MiB / 7.756GiB   0.10%     4.06kB / 126B   9.27MB / 0B     7
 ```
 
 Без `--no-stream` таблица обновляется в реальном времени, как `top`, только показывает контейнеры вместо процессов хоста
@@ -183,7 +183,7 @@ docker compose logs --tail 10 web
 nginx в официальном образе не пишет в файлы: `access.log` и `error.log` это симлинки на `/dev/stdout` и `/dev/stderr`
 
 ```
-$ docker exec lesson-3-server-deploy-web-1 ls -la /var/log/nginx
+$ docker exec lesson-03-server-deploy-web-1 ls -la /var/log/nginx
 lrwxrwxrwx  1 root root  11 access.log -> /dev/stdout
 lrwxrwxrwx  1 root root  11 error.log -> /dev/stderr
 ```

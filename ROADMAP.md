@@ -10,35 +10,35 @@ Linux, Bash и Git идут фоном самостоятельно, отдел�
 
 ## Уроки
 
-1. [Статика и веб](lesson-1-base-web/): HTML/CSS/JS, запуск сервера, порты, HTTP, curl, кэш браузера
+1. [Статика и веб](lesson-01-base-web/): HTML/CSS/JS, запуск сервера, порты, HTTP, curl, кэш браузера
 
-2. [nginx и Docker](lesson-2-nginx-docker/): конфиг веб-сервера, Dockerfile, сборка и запуск контейнера
+2. [nginx и Docker](lesson-02-nginx-docker/): конфиг веб-сервера, Dockerfile, сборка и запуск контейнера
 
-3. [Деплой на сервер](lesson-3-server-deploy/): docker-compose, токен для приватного репозитория, Docker и порты на виртуалке, HTTPS с самоподписанным сертификатом
+3. [Деплой на сервер](lesson-03-server-deploy/): docker-compose, токен для приватного репозитория, Docker и порты на виртуалке, HTTPS с самоподписанным сертификатом
 
-4. [Базовая отладка](lesson-4-debugging/): память, CPU и диск, чистка Docker-образов, load average, OOM и троттлинг, ping/traceroute, логи в Linux
+4. [Базовая отладка](lesson-04-debugging/): память, CPU и диск, чистка Docker-образов, load average, OOM и троттлинг, ping/traceroute, логи в Linux
 
    Python: [L1](https://github.com/squalusmentor/lessons-python/tree/main/l1), [L2](https://github.com/squalusmentor/lessons-python/tree/main/l2)
 
-5. [Приложение за прокси](lesson-5-app-behind-proxy/): reverse proxy, proxy_pass, заголовки X-Forwarded, переменные окружения, взаимодействие двух контейнеров, логи приложения в stdout
+5. [Приложение за прокси](lesson-05-app-behind-proxy/): reverse proxy, proxy_pass, заголовки X-Forwarded, переменные окружения, взаимодействие двух контейнеров, логи приложения в stdout
 
    Python: [L3](https://github.com/squalusmentor/lessons-python/tree/main/l3), [L4](https://github.com/squalusmentor/lessons-python/tree/main/l4)
 
-6. [Postgres и сохранность данных](lesson-6-postgres/): контейнер с базой, volume, healthcheck и готовность базы, пароль в .env, дамп и восстановление, systemd и автозапуск после ребута, автобэкап в S3 как практика
+6. [Postgres и сохранность данных](lesson-06-postgres/): контейнер с базой, volume, healthcheck и готовность базы, пароль в .env, дамп и восстановление, systemd и автозапуск после ребута, автобэкап в S3 как практика
 
 > **Здесь начинается собственный проект.** Темы на выбор: [project-list.md](project-list.md)
 >
 > Дальше проект едет через все оставшиеся уроки: попадает в пайплайн, разворачивается плейбуком, обрастает бэкапами и метриками, переезжает в кластер. К концу курса это работающий сервис в портфолио, а не набор учебных заготовок
 
-7. [CI/CD на GitHub Actions](lesson-7-cicd/): ветки и теги, модели ветвления (Git Flow, GitHub Flow, trunk-based), сборка образа, пуш в registry, секреты, триггеры, деплой, откат на предыдущую версию
+7. [CI/CD на GitHub Actions](lesson-07-cicd/): ветки и теги, модели ветвления (Git Flow, GitHub Flow, trunk-based), сборка образа, пуш в registry, секреты, триггеры, деплой, откат на предыдущую версию
 
    Python: [L5](https://github.com/squalusmentor/lessons-python/tree/main/l5)
 
-8. [Ansible](lesson-8-ansible/): SSH, inventory, playbook, задачи, роли, идемпотентность, перенос ручного деплоя из уроков 3, 5 и 6 в плейбук
+8. [Ansible](lesson-08-ansible/): SSH, inventory, playbook, задачи, роли, идемпотентность, перенос ручного деплоя из уроков 3, 5 и 6 в плейбук
 
    Python: [L6](https://github.com/squalusmentor/lessons-python/tree/main/l6)
 
-9. [Ansible в пайплайне](lesson-9-ansible-pipeline/): отдельная джоба вызывает плейбук, весь деплой проекта собирается в одну кнопку
+9. [Ansible в пайплайне](lesson-09-ansible-pipeline/): отдельная джоба вызывает плейбук, весь деплой проекта собирается в одну кнопку
 
    Python: [L7](https://github.com/squalusmentor/lessons-python/tree/main/l7), основной курс закрыт
 

@@ -143,13 +143,13 @@ docker compose up -d --build
 В выводе появились две новые строки: compose дождался, пока база станет `Healthy`, и только потом взялся за `backend`:
 
 ```
- Container lesson-6-postgres-postgres-1 Started
- Container lesson-6-postgres-postgres-1 Waiting
- Container lesson-6-postgres-postgres-1 Healthy
- Container lesson-6-postgres-backend-1 Starting
- Container lesson-6-postgres-backend-1 Started
- Container lesson-6-postgres-nginx-1 Starting
- Container lesson-6-postgres-nginx-1 Started
+ Container lesson-06-postgres-postgres-1 Started
+ Container lesson-06-postgres-postgres-1 Waiting
+ Container lesson-06-postgres-postgres-1 Healthy
+ Container lesson-06-postgres-backend-1 Starting
+ Container lesson-06-postgres-backend-1 Started
+ Container lesson-06-postgres-nginx-1 Starting
+ Container lesson-06-postgres-nginx-1 Started
 ```
 
 ```
@@ -225,10 +225,10 @@ Volume это папка на диске хоста, которой управл
 ```
 $ docker volume ls
 DRIVER    VOLUME NAME
-local     lesson-6-postgres_pgdata
+local     lesson-06-postgres_pgdata
 
-$ docker volume inspect lesson-6-postgres_pgdata --format '{{.Mountpoint}}'
-/var/lib/docker/volumes/lesson-6-postgres_pgdata/_data
+$ docker volume inspect lesson-06-postgres_pgdata --format '{{.Mountpoint}}'
+/var/lib/docker/volumes/lesson-06-postgres_pgdata/_data
 ```
 
 Имя собралось из имени проекта и имени volume. `Mountpoint` это где папка лежит на самом деле, но ходить туда руками незачем: с данными Postgres работает только сам Postgres
@@ -246,12 +246,12 @@ Bind mount из урока 5 и named volume это два способа дат
 ```
 $ docker compose down
  ...
- Container lesson-6-postgres-postgres-1 Removed
- Network lesson-6-postgres_default Removed
+ Container lesson-06-postgres-postgres-1 Removed
+ Network lesson-06-postgres_default Removed
 
 $ docker volume ls
 DRIVER    VOLUME NAME
-local     lesson-6-postgres_pgdata
+local     lesson-06-postgres_pgdata
 
 $ docker compose up -d
 $ curl -s http://localhost:8080/health
@@ -263,7 +263,7 @@ $ curl -s http://localhost:8080/health
 ```
 $ docker compose down -v
  ...
- Volume lesson-6-postgres_pgdata Removed
+ Volume lesson-06-postgres_pgdata Removed
 
 $ docker compose up -d
 $ curl -s http://localhost:8080/health
@@ -331,8 +331,8 @@ POSTGRES_HOST=postgres
 
 ```
 $ docker compose up -d
- Container lesson-6-postgres-postgres-1 Recreated
- Container lesson-6-postgres-backend-1 Recreated
+ Container lesson-06-postgres-postgres-1 Recreated
+ Container lesson-06-postgres-backend-1 Recreated
 
 $ docker compose ps
 SERVICE    STATUS
