@@ -1,0 +1,21 @@
+global:
+  # 5 секунд для урока, чтобы результат был виден сразу. В проде 15-60 секунд
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+rule_files:
+  - alerts.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ["alertmanager:9093"]
+
+scrape_configs:
+  - job_name: backend
+    static_configs:
+      - targets: ["backend:5000"]
+
+  - job_name: postgres
+    static_configs:
+      - targets: ["postgres-exporter:9187"]

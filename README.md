@@ -17,3 +17,4 @@
 | [lesson-08-ansible](lesson-08-ansible/) | Ansible: SSH и inventory, плейбук, модули и идемпотентность, роли, секреты из окружения, перенос ручного деплоя в плейбук |
 | [lesson-09-ansible-pipeline](lesson-09-ansible-pipeline/) | Ansible в пайплайне: джоба деплоя вызывает плейбук, push вместо pull, дамп перед деплоем, релиз одним тегом и откат кнопкой |
 | [lesson-10-backup-limits-redeploy](lesson-10-backup-limits-redeploy/) | Бэкап, лимиты, редеплой: дамп в S3 по расписанию, ротация lifecycle-правилом, лимиты по данным Netdata, редеплой с последнего удачного тега |
+| [lesson-11-monitoring](lesson-11-monitoring/) | Метрики и алерты: эндпоинт /metrics в приложении, Prometheus, экспортёр для Postgres, PromQL, правила алертов, Alertmanager, что имеет смысл считать |

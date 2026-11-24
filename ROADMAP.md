@@ -44,7 +44,7 @@ Linux, Bash и Git идут фоном самостоятельно, отдел�
 
 10. [Бэкап, лимиты, редеплой](lesson-10-backup-limits-redeploy/): дамп базы в S3 по расписанию, восстановление, ротация lifecycle-правилом, данные Netdata через API, лимиты памяти и CPU по цифрам, healthcheck без лишней нагрузки, редеплой с последнего удачного тега, тег после успешного деплоя
 
-11. Метрики: Prometheus, экспортеры, алерты в Netdata, эндпоинт /metrics в проекте, что вообще имеет смысл считать
+11. [Метрики и алерты](lesson-11-monitoring/): эндпоинт /metrics в проекте, Prometheus, экспортёр для базы, PromQL, правила алертов и Alertmanager, что вообще имеет смысл считать
 
     Python: [B1](https://github.com/squalusmentor/lessons-python/tree/main/advanced/b1), [B2](https://github.com/squalusmentor/lessons-python/tree/main/advanced/b2)
 
