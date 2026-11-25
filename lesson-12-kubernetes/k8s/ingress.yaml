@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          # /metrics и /health сюда не входят, снаружи они не нужны
+          - path: /docs
+            pathType: Prefix
+            backend:
+              service:
+                name: api
+                port:
+                  number: 8080
+          - path: /api/v1
+            pathType: Prefix
+            backend:
+              service:
+                name: api
+                port:
+                  number: 8080

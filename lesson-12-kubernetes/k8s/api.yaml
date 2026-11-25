@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api
+data:
+  PORT: "8080"
+  GIN_MODE: release
+  LOG_LEVEL: info
+  DEBUG_MODE: "false"
+  GOMEMLIMIT: 96MiB
+  MAX_WORKERS: "10"
+  MONGODB_URI: mongodb://ec-mongodb:27017
+  MONGODB_DATABASE: joi_db
+  MONGODB_MAX_RETRIES: "3"
+  MONGODB_RETRY_DELAY: "5"
+  MONGODB_CONNECT_TIMEOUT: "10"
+  S3_HOSTNAME: ams1.vultrobjects.com
+  S3_BUCKET_NAME: mask-profile-pics
+  S3_FILE_PATH: base-images
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: kot1gray/api:v0.3.10
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: api
+          env:
+            # В .env ключ называется BOT_TOKEN, приложение ждёт другое имя
+            - name: TELEGRAM_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: encon
+                  key: BOT_TOKEN
+            - name: POLZA_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: encon
+                  key: POLZA_KEY
+            - name: S3_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: encon
+                  key: S3_ACCESS_KEY
+            - name: S3_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: encon
+                  key: S3_SECRET_KEY
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            # До подключения к монге порт закрыт, ранний провал пробы
+            # перезапускал бы под, который просто ждёт базу
+            initialDelaySeconds: 60
+          resources:
+            requests:
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+              cpu: 100m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+spec:
+  selector:
+    app: api
+  ports:
+    - port: 8080

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: telegram-bot
+spec:
+  replicas: 1
+  # Telegram отдаёт сообщения одному получателю на токен, второй под
+  # во время обновления получал бы ошибку 409
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: telegram-bot
+  template:
+    metadata:
+      labels:
+        app: telegram-bot
+    spec:
+      containers:
+        - name: telegram-bot
+          image: kot1gray/telegram-bot:v0.2.14
+          env:
+            - name: BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: encon
+                  key: BOT_TOKEN
+            - name: SERVER_HOST
+              value: http://api:8080
+            - name: API_PATH
+              value: /api/v1
+            - name: DEBUG_MODE
+              value: "false"
+          resources:
+            requests:
+              memory: 112Mi
+            limits:
+              memory: 224Mi
+              cpu: 100m

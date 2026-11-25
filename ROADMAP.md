@@ -48,7 +48,7 @@ Linux, Bash и Git идут фоном самостоятельно, отдел�
 
     Python: [B1](https://github.com/squalusmentor/lessons-python/tree/main/advanced/b1), [B2](https://github.com/squalusmentor/lessons-python/tree/main/advanced/b2)
 
-12. Kubernetes: minikube, Pod, Deployment, Service, Ingress, ConfigMap, Secret, PVC, пробы, Lens, перенос приложения с базой в кластер, бэкап как CronJob
+12. [Kubernetes](lesson-12-kubernetes/): minikube, Freelens, устройство кластера, Pod, Deployment, Service, Ingress, ConfigMap, Secret, PVC, пробы, перенос приложения с базой из compose в манифесты
 
     Python: [B3](https://github.com/squalusmentor/lessons-python/tree/main/advanced/b3), [B4](https://github.com/squalusmentor/lessons-python/tree/main/advanced/b4)
 

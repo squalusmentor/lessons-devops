@@ -1,0 +1,83 @@
+# Compose живого проекта из урока 10
+# Оставлены три сервиса, которые запустим из кластера
+name: encon
+
+services:
+  ec-mongodb:
+    image: mongo:7.0
+    container_name: ec-mongodb
+    restart: unless-stopped
+    command:
+      - mongod
+      - --quiet
+    volumes:
+      - ec-mongodb-data:/data/db
+    networks:
+      - ec-network
+    mem_limit: 512m
+    mem_reservation: 208m
+    cpus: 0.25
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/27017"]
+      interval: 5m
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+
+  api:
+    image: kot1gray/api:v0.3.10
+    container_name: api
+    environment:
+      - PORT=${PORT:-8080}
+      - GIN_MODE=${GIN_MODE:-release}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - TELEGRAM_BOT_TOKEN=${BOT_TOKEN}
+      - POLZA_KEY=${POLZA_KEY}
+      - MONGODB_URI=mongodb://ec-mongodb:27017
+      - MONGODB_DATABASE=joi_db
+      - MONGODB_MAX_RETRIES=3
+      - MONGODB_RETRY_DELAY=5
+      - MONGODB_CONNECT_TIMEOUT=10
+      - DEBUG_MODE=false
+      - GOMEMLIMIT=96MiB
+      - MAX_WORKERS=10
+      - S3_FILE_PATH=${S3_IMG_FILE_PATH:-base-images}
+      - S3_BUCKET_NAME=${S3_IMG_BUCKET_NAME:-mask-profile-pics}
+      - S3_HOSTNAME=${S3_HOSTNAME:-ams1.vultrobjects.com}
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY}
+      - S3_SECRET_KEY=${S3_SECRET_KEY}
+    mem_limit: 128m
+    mem_reservation: 32m
+    cpus: 0.1
+    restart: unless-stopped
+    networks:
+      - ec-network
+    depends_on:
+      ec-mongodb:
+        condition: service_healthy
+
+  telegram-bot:
+    image: kot1gray/telegram-bot:v0.2.14
+    container_name: telegram-bot
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - SERVER_HOST=${SERVER_HOST:-http://api:8080}
+      - API_PATH=${API_PATH:-/api/v1}
+      - DEBUG_MODE=false
+    mem_limit: 224m
+    mem_reservation: 112m
+    cpus: 0.1
+    restart: unless-stopped
+    networks:
+      - ec-network
+    depends_on:
+      - api
+
+networks:
+  ec-network:
+    driver: bridge
+
+volumes:
+  ec-mongodb-data:
+    external: true
